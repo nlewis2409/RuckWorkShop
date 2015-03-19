@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Whack-a-Katy</title>
+	</head>
+	<body onLoad="start_game()">
+        <img src = "katycat.png" id="katy" style="float:right">
+
+	<h2>A canvas game with cats</h2>
+	<canvas id="canvas1" width="700" height="300" style="border:1px dotted" ondblclick="stop_game()"></canvas>
+
+
+<p id="p1">
+<!--This is an "empty" paragraph, which we can fill using JavaScript and a call to document.getElementById('p1') if we find we want to write anything on the page-->
+</p> 
+
+
+<script>
+// let's have a couple of global variables.
+var mycanv=document.getElementById("canvas1");
+var canwidth = mycanv.width;
+var canheight = mycanv.height;
+//var cat_x=Math.random()*canwidth;
+//var cat_y=Math.random()*canheight;
+var moveCat;
+var katy_width;
+var katy_height;
+
+var ctx=mycanv.getContext("2d");
+var myscore = 0;
+mycanv.addEventListener("click",hitpaint,false);
+
+// main game function, called on page load
+function start_game() {
+
+    run_game();
+    moveCat=setInterval((run_game), 1000);
+
+}
+
+function run_game() {
+
+    canvas1.width = canvas1.width;
+
+    var cat_x=Math.random()*(canwidth - katy_width);
+    var cat_y=Math.random()*(canheight - katy_height);
+    //console.log(katy_width);
+    //console.log(katy_height);
+    draw_katy(cat_x,cat_y);
+
+}
+
+// probably have something to do when we're finished
+function stop_game() {
+    clearInterval(moveCat);
+}
+
+
+function draw_katy(x,y) {
+    var katy_img=document.getElementById("katy");
+    katy_width = katy.width;
+    katy_height = katy.height;
+    ctx.drawImage(katy_img,x,y);
+    //ctx.drawImage(katy_img,x,y);
+
+
+
+}
+
+
+function hitpaint(mouse_event) {
+	// This function determines whether a mouse click
+	// is on a painted part of the canvas
+
+	// You can treat this as a "black box" if you like
+	// But it is probably worth working out what's going on
+
+
+	// find the bounding rectangle of the canvas
+	var bounding_box=mycanv.getBoundingClientRect();
+
+	// get the mousex and mousey location on the canvas
+	// from the mouse_event 
+	// and the canvas bounding rectangle
+        var mousex=(mouse_event.clientX-bounding_box.left) *
+                             (mycanv.width/bounding_box.width);	
+        var mousey=(mouse_event.clientY-bounding_box.top) *
+				(mycanv.height/bounding_box.height);	
+        var pixels=ctx.getImageData(mousex,mousey,1,1);
+
+	// It's possible that there is more than one pixel at this
+	// location (if the monitor is high-res, one "canvas pixel" 
+	// might correspond to more than one "image pixel") so we need
+	// to use a loop to test whether any of the pixels has an
+	// alpha value greater than 0
+
+	// With pixel data...
+	// 0 is red, 1 is green, 2 is blue, 3 is alpha 
+	// So we need to check data[3] and every fourth element in 
+	// data after that.
+	
+
+	for (var i=3; i<pixels.data.length; i+=4) {
+		// If we find a non-zero alpha we can just stop and return
+		// "true" - the click was on a part of the canvas that's
+		// got colour on it.
+            if ( pixels.data[i]!==0 ) {
+                myscore++;
+                document.getElementById('p1').innerHTML = "Score: "+myscore;
+                return true;
+            }
+	}
+
+
+	// The function will only get here if none of the pixels matched in 
+	// the loop above, so we know that the mouse click wasn't on a painted
+	// part of the canvas
+        return false;
+
+}
+
+</script>
+</body>
+</html>

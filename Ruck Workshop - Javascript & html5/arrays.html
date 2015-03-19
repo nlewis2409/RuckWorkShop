@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Arrays</title>
+	</head>
+	<body onLoad="print_array()">
+
+<!--This is an "empty" div, which we can fill using JavaScript and a call to document.getElementById('d1') -->
+<div id="d1"></div> 
+
+<script>
+
+var stuff=[];
+stuff.push("apples");
+stuff.push(2);
+stuff.push("pears");
+stuff.push("72");
+stuff.push("bananas");
+stuff.push("tree");
+stuff.unshift("First");
+stuff.push("END");
+
+//stuff.pop();
+//stuff.shift();
+console.log(stuff[3])
+
+function print_array() {
+// You can treat this as a black-box function for now - all it does is
+// cycle through an array and print the contents to a div in the document
+// as a linked list
+        var output="<ul>"; // a variable to hold the output
+        for (var i=0;i<stuff.length;i++) { // go through the array 
+             output=output+"<li>"+stuff[i]+"</li> "; // append array contents to output string
+	}
+        output=output+"</ul>";
+	document.getElementById('d1').innerHTML=output;
+}
+
+
+</script>
+</body>
+</html>

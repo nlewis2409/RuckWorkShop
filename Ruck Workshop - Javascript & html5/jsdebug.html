@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Exercise one: debugging JavaScript</title>
+</head>
+<body>
+
+	<h2>Type a number into the text box</h2>
+	<input type="text" id="box1" >
+        <input type="button" value="do stuff" onClick="do_stuff()">
+	<script>
+function do_stuff() {
+	var num=document.getElementById("box1").value; //gets the contents of the textbox
+        var out;
+        console.log(num);
+        console.log(typeof(num));
+        num=parseInt(num,10);
+
+        if (num===1) {
+            out="one squared is one "; 
+	} else {
+            out=num*num;
+	}
+
+    console.log(typeof(out));
+
+    if (typeof(out)!=="NaN") {
+            box1.value=out; }//sets the value of the box to out
+        else                 {
+            box1.value="Not a number";
+    }
+
+}
+	
+	</script>
+</body>
+</html>
